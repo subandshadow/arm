@@ -1,0 +1,48 @@
+{
+  "id": "/subscriptions/904c28cc-7663-4aeb-94e7-e1b1156533d8/resourceGroups/compute-ss/providers/Microsoft.Resources/deployments/Microsoft.Template-20230624003723",
+  "name": "Microsoft.Template-20230624003723",
+  "type": "Microsoft.Resources/deployments",
+  "properties": {
+    "templateHash": "13120038605368246703",
+    "parameters": {
+      "storageAccountType": {
+        "type": "String",
+        "value": "Standard_LRS"
+      },
+      "location": {
+        "type": "String",
+        "value": "eastus"
+      },
+      "storageAccountName": {
+        "type": "String",
+        "value": "storetjocot4lrowea"
+      }
+    },
+    "mode": "Incremental",
+    "debugSetting": {
+      "detailLevel": "None"
+    },
+    "provisioningState": "Running",
+    "timestamp": "2023-06-23T21:37:33.1396604Z",
+    "duration": "PT5.3010884S",
+    "correlationId": "86a9af84-c6ec-4766-96f4-9018c55a986d",
+    "providers": [
+      {
+        "namespace": "Microsoft.Storage",
+        "resourceTypes": [
+          {
+            "resourceType": "storageAccounts",
+            "locations": [
+              "eastus"
+            ]
+          }
+        ]
+      }
+    ],
+    "dependencies": [],
+    "validationLevel": "Template"
+  },
+  "tags": {
+    "marketplaceItemId": "Microsoft.Template"
+  }
+}
