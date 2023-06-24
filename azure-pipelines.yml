@@ -23,4 +23,4 @@ steps:
     csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/create_web_app/StorageAccount.json'
     # overrideParameters: '-storageAccountName ${Build.BuildId}'
     deploymentMode: 'Incremental'
-    deploymentName: 'DeployPipelineTemplate'
+    deploymentName: 'DeployPipelineTemplate2'
