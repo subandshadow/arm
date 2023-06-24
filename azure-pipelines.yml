@@ -20,7 +20,7 @@ steps:
     resourceGroupName: 'compute-ss'
     location: 'East US'
     templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/create_web_app/StorageAccount.json?token=GHSAT0AAAAAACEJQWAPWWQAQ7KRNJPSAZTWZEWFJMQ'
+    csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/create_web_app/StorageAccount.json'
     overrideParameters: '-projectName azure1'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployPipelineTemplate'
