@@ -21,6 +21,6 @@ steps:
     location: 'East US'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/ARMTemplates/SimpleLinuxVM.json'
-    overrideParameters: '-vmName azuretestvm2 -adminUsername azureadmin1 -adminPasswordOrKey azurepassword1!'
-    deploymentMode: 'Complete'
+    overrideParameters: '-vmName azuretestvm1 -adminUsername azureadmin1 -adminPasswordOrKey azurepassword1!'
+    deploymentMode: 'Incremental'
     deploymentName: 'CreateVMWithARMTemplate'
