@@ -8,6 +8,7 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+  agent.name: TLV-M-MarkD
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
