@@ -64,16 +64,7 @@
           {
             "name": "default",
             "properties": {
-              "addressPrefix": "10.0.0.0/24",
-              "delete": {
-                "effect": "IfNotUsed",
-                "details": [
-                  {
-                    "type": "Microsoft.Network/virtualNetworks/subnets",
-                    "name": "[concat(parameters('vmName'), 'VNet/default')]"
-                  }
-                ]
-              }
+              "addressPrefix": "10.0.0.0/24"
             }
           }
         ]
