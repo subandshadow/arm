@@ -21,6 +21,10 @@
           "metadata": {
               "description": "Location for all resources."
           }
+      },
+      "storageAccountName": {
+        "type": "string",
+        "defaultValue": "[variables('storageAccountName')]"
       }
   },
   "variables": {
@@ -28,7 +32,7 @@
   },
   "resources": [{
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
+      "name": "[parameters('storageAccountName')]",
       "location": "[parameters('location')]",
       "apiVersion": "2018-07-01",
       "sku": {
@@ -40,7 +44,7 @@
   "outputs": {
       "storageAccountName": {
           "type": "string",
-          "value": "[variables('storageAccountName')]"
+          "value": "[parameters('storageAccountName')]"
       }
   }
 }
