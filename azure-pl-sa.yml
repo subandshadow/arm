@@ -27,7 +27,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Create Azure Storage Account'
       inputs:
-        azureSubscription: '<Azure Service Connection>'
+        azureSubscription: 'azure1-conn'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
