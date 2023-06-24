@@ -50,7 +50,7 @@
               },
               "osProfile": {
                   "computerName": "[parameters('virtualMachines_azuretestvm1_name')]",
-                  "adminUsername": "azureadmin3",
+                  "adminUsername": "azureadmin2",
                   "linuxConfiguration": {
                       "disablePasswordAuthentication": false,
                       "provisionVMAgent": true,
