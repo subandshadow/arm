@@ -21,6 +21,6 @@ steps:
     location: 'East US'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/create_web_app/StorageAccount.json'
-    overrideParameters: '-storageAccountName azure-sa-1'
+    overrideParameters: '-storageAccountName azuresa1'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployPipelineTemplate'
