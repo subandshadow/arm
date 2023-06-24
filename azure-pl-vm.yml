@@ -6,21 +6,52 @@
 trigger:
 - vm_creations
 
-pool:
-  name: Default
-  agent.name: TLV-M-MarkD
+# pool:
+#   name: Default
+#   agent.name: TLV-M-MarkD
 
-steps:
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'azure1-conn'
-    subscriptionId: '904c28cc-7663-4aeb-94e7-e1b1156533d8'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 'hw-rg'
-    location: 'East US'
-    templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/ARMTemplates/SimpleLinuxVM.json'
-    overrideParameters: '-vmName azuretestvm1 -adminUsername azureadmin3 -adminPasswordOrKey azurepassword1!'
-    deploymentMode: 'Incremental'
-    deploymentName: 'CreateVMWithARMTemplate'
+# steps:
+# - task: AzureResourceManagerTemplateDeployment@3
+#   inputs:
+#     deploymentScope: 'Resource Group'
+#     azureResourceManagerConnection: 'azure1-conn'
+#     subscriptionId: '904c28cc-7663-4aeb-94e7-e1b1156533d8'
+#     action: 'Create Or Update Resource Group'
+#     resourceGroupName: 'hw-rg'
+#     location: 'East US'
+#     templateLocation: 'URL of the file'
+#     csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/ARMTemplates/SimpleLinuxVM.json'
+#     overrideParameters: '-vmName azuretestvm1 -adminUsername azureadmin3 -adminPasswordOrKey azurepassword1!'
+#     deploymentMode: 'Incremental'
+#     deploymentName: 'CreateVMWithARMTemplate'
+
+
+stages:
+  - stage: Deploy
+    displayName: 'Deploy to Azure'
+    jobs:
+      - job: ProvisionVM
+        displayName: 'Provision VM'
+        pool:
+          name: Default
+          agent.name: TLV-M-MarkD
+
+        steps:
+          # - task: AzureCLI@2
+          #   displayName: 'Azure Login'
+          #   inputs:
+          #     azureSubscription: 'azure1-conn' # Replace with your Azure service connection name
+          #     scriptType: 'bash'
+          #     scriptLocation: 'inline'
+          #     inlineScript: |
+          #       az account set --subscription $(azureSubscriptionId)
+          #       az group create --name $(resourceGroupName) --location $(location)
+
+          - task: AzureCLI@2
+            displayName: 'Provision VM'
+            inputs:
+              azureSubscription: 'azure1-conn' # Replace with your Azure service connection name
+              scriptType: 'bash'
+              scriptLocation: 'inline'
+              inlineScript: |
+                az deployment group create --resource-group hw-rg --template-file '/ARMTemplate/VM.json' --parameters '/ARMTemplate/VM.parameters.json'
