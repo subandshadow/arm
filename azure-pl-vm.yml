@@ -6,21 +6,45 @@
 trigger:
 - main
 
-pool:
-  name: Default
-  agent.name: TLV-M-MarkD
+resources:
+  containers:
+    - container: azure-cli
+      image: mcr.microsoft.com/azure-cli
 
-steps:
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'azure1-conn'
-    subscriptionId: '904c28cc-7663-4aeb-94e7-e1b1156533d8'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 'hw-rg'
-    location: 'East US'
-    templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/ARMTemplates/SimpleLinuxVM.json'
-    overrideParameters: '-vmName azuretestvm1 -adminUsername azureadmin1 -adminPasswordOrKey azurepassword1!'
-    deploymentMode: 'Incremental'
-    deploymentName: 'CreateVMWithARMTemplate'
+stages:
+- stage: ProvisionVM
+  displayName: 'Provision VM'
+  jobs:
+  - job: ProvisionVMJob
+    displayName: 'Provision VM Job'
+    pool:
+      name: Default
+      agent.name: TLV-M-MarkD
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Create Azure VM'
+      inputs:
+        azureSubscription: 'azure1-conn'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          # Create a unique name for the VM
+          VM_NAME="my-vm-$(date +%s)"
+
+          # Set resource group and VM details
+          RESOURCE_GROUP="hw-rg"
+          LOCATION=$(az group show --name $RESOURCE_GROUP --query location --output tsv)
+          IMAGE="Canonical:0001-com-ubuntu-server-focal:20_04-lts-gen2:latest"
+          SIZE="Standard_B1s"
+          USERNAME="azureuser1"
+          PASSWORD="azurpassword1!"
+
+          # Create VM
+          az vm create \
+            --name $VM_NAME \
+            --resource-group $RESOURCE_GROUP \
+            --location $LOCATION \
+            --image $IMAGE \
+            --size $SIZE \
+            --admin-username $USERNAME \
+            --admin-password $PASSWORD
