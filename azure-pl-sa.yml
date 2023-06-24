@@ -23,4 +23,4 @@ steps:
     csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/create_web_app/SimpleLinuxVM.json'
     overrideParameters: '-vmName azuretestvm1 -adminUsername azureadmin1 -adminPasswordOrKey azurepassword1!'
     deploymentMode: 'Incremental'
-    deploymentName: 'DeployPipelineTemplate3'
+    deploymentName: 'DeployPipelineTemplate4'
