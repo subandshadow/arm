@@ -20,6 +20,6 @@ steps:
     resourceGroupName: 'hw-rg'
     location: 'East US'
     templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/create_web_app/StorageAccount.json'
+    csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/ARMTemplates/StorageAccount.json'
     deploymentMode: 'Incremental'
     deploymentName: 'CreateSAWithARMTemplate'
