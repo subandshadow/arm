@@ -21,6 +21,6 @@ steps:
     location: 'East US'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/create_web_app/StorageAccount.json'
-    overrideParameters: '-storageAccountName $(Build.BuildId)'
+    overrideParameters: '-storageAccountName $(BuildDefinitionName).$(rev:r)'
     deploymentMode: 'Incremental'
     deploymentName: 'CreateSAWithARMTemplate'
