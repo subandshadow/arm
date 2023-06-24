@@ -10,16 +10,37 @@ pool:
   name: Default
   agent.name: TLV-M-MarkD
 
-steps:
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'azure1-conn'
-    subscriptionId: '904c28cc-7663-4aeb-94e7-e1b1156533d8'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 'hw-rg'
-    location: 'East US'
-    templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/ARMTemplates/StorageAccount.json'
-    deploymentMode: 'Incremental'
-    deploymentName: 'CreateSAWithARMTemplate'
+resources:
+  containers:
+    - container: azure-cli
+      image: mcr.microsoft.com/azure-cli
+
+stages:
+- stage: ProvisionStorageAccount
+  displayName: 'Provision Storage Account'
+  jobs:
+  - job: ProvisionStorageAccountJob
+    displayName: 'Provision Storage Account Job'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Create Azure Storage Account'
+      inputs:
+        azureSubscription: '<Azure Service Connection>'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          # Create a unique name for the storage account
+          STORAGE_ACCOUNT_NAME="sa$(date +%s | md5sum | head -c 8)"
+
+          # Set resource group and storage account details
+          RESOURCE_GROUP="hw-rg"
+          LOCATION=$(az group show --name $RESOURCE_GROUP --query location --output tsv)
+          
+          # Create storage account
+          az storage account create \
+            --name $STORAGE_ACCOUNT_NAME \
+            --resource-group $RESOURCE_GROUP \
+            --location $LOCATION \
+            --sku Standard_LRS
