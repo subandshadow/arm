@@ -17,7 +17,7 @@ steps:
     azureResourceManagerConnection: 'azure1-conn'
     subscriptionId: '904c28cc-7663-4aeb-94e7-e1b1156533d8'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'compute-ss'
+    resourceGroupName: 'compute-rg'
     location: 'East US'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/subandshadow/arm/main/create_web_app/StorageAccount.json'
