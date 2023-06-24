@@ -6,9 +6,9 @@
 trigger:
 - main
 
-pool:
-  name: Default
-  agent.name: TLV-M-MarkD
+# pool:
+#   name: Default
+#   agent.name: TLV-M-MarkD
 
 resources:
   containers:
@@ -22,7 +22,8 @@ stages:
   - job: ProvisionStorageAccountJob
     displayName: 'Provision Storage Account Job'
     pool:
-      vmImage: 'ubuntu-latest'
+      name: Default
+      agent.name: TLV-M-MarkD
     steps:
     - task: AzureCLI@2
       displayName: 'Create Azure Storage Account'
