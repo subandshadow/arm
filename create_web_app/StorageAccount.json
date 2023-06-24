@@ -1,48 +1,46 @@
 {
-  "id": "/subscriptions/904c28cc-7663-4aeb-94e7-e1b1156533d8/resourceGroups/compute-ss/providers/Microsoft.Resources/deployments/Microsoft.Template-20230624003723",
-  "name": "Microsoft.Template-20230624003723",
-  "type": "Microsoft.Resources/deployments",
-  "properties": {
-    "templateHash": "13120038605368246703",
-    "parameters": {
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
       "storageAccountType": {
-        "type": "String",
-        "value": "Standard_LRS"
+          "type": "string",
+          "defaultValue": "Standard_LRS",
+          "allowedValues": [
+              "Standard_LRS",
+              "Standard_GRS",
+              "Standard_ZRS",
+              "Premium_LRS"
+          ],
+          "metadata": {
+              "description": "Storage Account type"
+          }
       },
       "location": {
-        "type": "String",
-        "value": "eastus"
-      },
-      "storageAccountName": {
-        "type": "String",
-        "value": "azure-sa-2"
-      }
-    },
-    "mode": "Incremental",
-    "debugSetting": {
-      "detailLevel": "None"
-    },
-    "provisioningState": "Running",
-    "timestamp": "2023-06-23T21:37:33.1396604Z",
-    "duration": "PT5.3010884S",
-    "correlationId": "86a9af84-c6ec-4766-96f4-9018c55a986d",
-    "providers": [
-      {
-        "namespace": "Microsoft.Storage",
-        "resourceTypes": [
-          {
-            "resourceType": "storageAccounts",
-            "locations": [
-              "eastus"
-            ]
+          "type": "string",
+          "defaultValue": "[resourceGroup().location]",
+          "metadata": {
+              "description": "Location for all resources."
           }
-        ]
       }
-    ],
-    "dependencies": [],
-    "validationLevel": "Template"
   },
-  "tags": {
-    "marketplaceItemId": "Microsoft.Template"
+  "variables": {
+      "storageAccountName": "[concat('store', uniquestring(resourceGroup().id))]"
+  },
+  "resources": [{
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "apiVersion": "2018-07-01",
+      "sku": {
+          "name": "[parameters('storageAccountType')]"
+      },
+      "kind": "StorageV2",
+      "properties": {}
+  }],
+  "outputs": {
+      "storageAccountName": {
+          "type": "string",
+          "value": "[variables('storageAccountName')]"
+      }
   }
 }
