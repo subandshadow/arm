@@ -62,7 +62,7 @@
         },
         "subnets": [
           {
-            "name": "default",
+            "name": "subnet1",
             "properties": {
               "addressPrefix": "10.0.0.0/24",
               "delete": {
@@ -93,7 +93,7 @@
             "name": "ipconfig1",
             "properties": {
               "subnet": {
-                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', concat(parameters('vmName'), 'VNet')), '/subnets/default')]"
+                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', concat(parameters('vmName'), 'VNet')), '/subnets/subnet1')]"
               },
               "privateIPAllocationMethod": "Dynamic"
             }
