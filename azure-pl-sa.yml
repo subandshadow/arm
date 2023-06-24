@@ -26,14 +26,6 @@ stages:
       agent.name: TLV-M-MarkD
     steps:
     - task: AzureCLI@2
-      displayName: 'Install Azure CLI'
-      inputs:
-        azureSubscription: 'azure1-conn'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          az --version
-    - task: AzureCLI@2
       displayName: 'Create Azure Storage Account'
       inputs:
         azureSubscription: 'azure1-conn'
