@@ -28,7 +28,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Install Azure CLI'
       inputs:
-        azureSubscription: '<Azure Service Connection>'
+        azureSubscription: 'azure1-conn'
         scriptLocation: 'inlineScript'
         inlineScript: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
