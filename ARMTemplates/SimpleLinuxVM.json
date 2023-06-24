@@ -2,40 +2,30 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "resourceGroupName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the resource group."
-      }
-    },
-    "location": {
-      "type": "string",
-      "metadata": {
-        "description": "The location for all resources."
-      }
-    },
     "vmName": {
       "type": "string",
+      "defaultValue": "myLinuxVM",
       "metadata": {
-        "description": "The name of the virtual machine."
+        "description": "The name of the Linux VM."
       }
     },
     "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "The username for the virtual machine administrator."
+        "description": "The username for the VM administrator."
       }
     },
     "adminPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "The password for the virtual machine administrator."
+        "description": "The password for the VM administrator."
       }
     },
     "vmSize": {
       "type": "string",
+      "defaultValue": "Standard_B1s",
       "metadata": {
-        "description": "The size of the virtual machine."
+        "description": "The size of the VM."
       }
     }
   },
@@ -43,23 +33,27 @@
     "storageAccountType": "Standard_LRS",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
-    "imageSKU": "20.04-LTS",
-    "osDiskName": "[concat(parameters('vmName'), '-OSDisk')]",
-    "vnetName": "[concat(parameters('vmName'), '-VNet')]",
-    "subnetName": "default"
+    "imageSKU": "20.04-LTS"
   },
   "resources": [
     {
-      "type": "Microsoft.Resources/resourceGroups",
-      "apiVersion": "2021-04-01",
-      "name": "[parameters('resourceGroupName')]",
-      "location": "[parameters('location')]"
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[concat(uniquestring(resourceGroup().id), 'storage')]",
+      "apiVersion": "2019-06-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[variables('storageAccountType')]"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "supportsHttpsTrafficOnly": true
+      }
     },
     {
       "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2021-05-01",
-      "name": "[variables('vnetName')]",
-      "location": "[parameters('location')]",
+      "name": "[concat(parameters('vmName'), 'VNet')]",
+      "apiVersion": "2019-09-01",
+      "location": "[resourceGroup().location]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -68,29 +62,17 @@
         },
         "subnets": [
           {
-            "name": "[variables('subnetName')]",
+            "name": "default",
             "properties": {
-              "addressPrefix": "10.0.0.0/24"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "Microsoft.Network/networkInterfaces",
-      "apiVersion": "2021-05-01",
-      "name": "[concat(parameters('vmName'), '-NIC')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
-      ],
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "subnet": {
-                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('vnetName')),'/subnets/', variables('subnetName'))]"
+              "addressPrefix": "10.0.0.0/24",
+              "delete": {
+                "effect": "IfNotUsed",
+                "details": [
+                  {
+                    "type": "Microsoft.Network/virtualNetworks/subnets",
+                    "name": "[concat(parameters('vmName'), 'VNet/default')]"
+                  }
+                ]
               }
             }
           }
@@ -98,47 +80,92 @@
       }
     },
     {
-      "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2021-03-01",
-      "name": "[parameters('vmName')]",
-      "location": "[parameters('location')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(parameters('vmName'), 'NIC')]",
+      "apiVersion": "2019-09-01",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '-NIC'))]"
+        "[resourceId('Microsoft.Network/virtualNetworks', concat(parameters('vmName'), 'VNet'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', concat(parameters('vmName'), 'VNet')), '/subnets/default')]"
+              },
+              "privateIPAllocationMethod": "Dynamic"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('vmName')]",
+      "apiVersion": "2019-07-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', concat(uniquestring(resourceGroup().id), 'storage'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), 'NIC'))]"
       ],
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
-        },
-        "storageProfile": {
-          "osDisk": {
-            "name": "[variables('osDiskName')]",
-            "createOption": "FromImage",
-            "caching": "ReadWrite",
-            "managedDisk": {
-              "storageAccountType": "[variables('storageAccountType')]"
-            },
-            "diskSizeGB": 30
-          },
-          "imageReference": {
-            "publisher": "[variables('imagePublisher')]",
-            "offer": "[variables('imageOffer')]",
-            "sku": "[variables('imageSKU')]",
-            "version": "latest"
-          }
         },
         "osProfile": {
           "computerName": "[parameters('vmName')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[variables('imageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "createOption": "FromImage"
+          },
+          "dataDisks": [
+            {
+              "name": "datadisk1",
+              "diskSizeGB": 1023,
+              "lun": 0,
+              "createOption": "Empty"
+            }
+          ]
+        },
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '-NIC'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), 'NIC'))]"
             }
           ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts', concat(uniquestring(resourceGroup().id), 'storage'))).primaryEndpoints.blob]"
+          }
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+    "vmName": {
+      "type": "string",
+      "value": "[parameters('vmName')]"
+    },
+    "vmAdminUsername": {
+      "type": "string",
+      "value": "[parameters('adminUsername')]"
+    },
+    "vmAdminPassword": {
+      "type": "securestring",
+      "value": "[parameters('adminPassword')]"
+    }
+  }
 }
