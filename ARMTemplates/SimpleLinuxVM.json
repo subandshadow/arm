@@ -141,7 +141,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "/subscriptions/904c28cc-7663-4aeb-94e7-e1b1156533d8/resourceGroups/hw-rg/providers/Microsoft.Network/networkInterfaces/azuretestvm1NetInt"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), 'NIC'))]"
             }
           ]
         },
