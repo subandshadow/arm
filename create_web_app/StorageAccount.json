@@ -15,7 +15,7 @@
       },
       "storageAccountName": {
         "type": "String",
-        "value": "azure-sa-2"
+        "value": "azure-sa-1"
       }
     },
     "mode": "Incremental",
