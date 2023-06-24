@@ -6,10 +6,6 @@
 trigger:
 - main
 
-# pool:
-#   name: Default
-#   agent.name: TLV-M-MarkD
-
 resources:
   containers:
     - container: azure-cli
