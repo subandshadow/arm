@@ -52,6 +52,6 @@ stages:
             inputs:
               azureSubscription: 'azure1-conn' # Replace with your Azure service connection name
               scriptType: 'bash'
-              scriptLocation: 'inline'
+              scriptLocation: 'inlineScript'
               inlineScript: |
                 az deployment group create --resource-group hw-rg --template-file '/ARMTemplate/VM.json' --parameters '/ARMTemplate/VM.parameters.json'
