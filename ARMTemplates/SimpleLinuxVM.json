@@ -50,36 +50,6 @@
       }
     },
     {
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[concat(parameters('vmName'), 'VNet')]",
-      "apiVersion": "2019-09-01",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "10.0.0.0/16"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "subnet1",
-            "properties": {
-              "addressPrefix": "10.0.0.0/24",
-              "delete": {
-                "effect": "IfNotUsed",
-                "details": [
-                  {
-                    "type": "Microsoft.Network/virtualNetworks/subnets",
-                    "name": "[concat(parameters('vmName'), 'VNet/default')]"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(parameters('vmName'), 'NIC')]",
       "apiVersion": "2019-09-01",
@@ -93,7 +63,7 @@
             "name": "ipconfig1",
             "properties": {
               "subnet": {
-                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', concat(parameters('vmName'), 'VNet')), '/subnets/subnet1')]"
+                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', concat(parameters('vmName'), 'VNet')), '/subnets/default')]"
               },
               "privateIPAllocationMethod": "Dynamic"
             }
