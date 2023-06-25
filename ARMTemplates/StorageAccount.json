@@ -56,15 +56,5 @@
       "kind": "StorageV2",
       "properties": {}
     } 
-  ],
-  "outputs": {
-    "storageAccountName": {
-      "type": "string",
-      "value": "[variables('storageAccountName')]"
-    },
-    "storageAccountId": {
-      "type": "string",
-      "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
-    }
-  }
+  ]
 }
