@@ -1,14 +1,11 @@
 {
-    "vmName": {
-      "value": "vmazure2"
+    "projectName": {
+      "value": "az2"
     },
     "adminUsername": {
       "value": "userazure1"
     },
     "adminPassword": {
       "value": "passwordazure1!"
-    },
-    "vmSize": {
-      "value": "Standard_B1s"
     }
 }
