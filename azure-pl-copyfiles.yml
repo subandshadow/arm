@@ -32,8 +32,8 @@ stages:
               sshEndpoint: 'az2vm'
               runOptions: 'inline'
               inline: |
-                python -m venv antenv
+                python3 -m venv antenv
                 source antenv/bin/activate
-                python -m pip install --upgrade pip
-                pip install setup
-                pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
+                python3 -m pip3 install --upgrade pip
+                pip3 install setup
+                pip3 install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
