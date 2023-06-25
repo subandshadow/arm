@@ -60,11 +60,11 @@
   "outputs": {
     "storageAccountName": {
       "type": "string",
-      "value": "[parameters('storageAccountName')]"
+      "value": "[variables('storageAccountName')]"
     },
     "storageAccountId": {
       "type": "string",
-      "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
     }
   }
 }
