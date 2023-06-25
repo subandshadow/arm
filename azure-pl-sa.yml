@@ -22,7 +22,7 @@ stages:
             inputs:
               azureSubscription: 'azure1-conn'
               scriptType: 'bash'
-              scriptLocation: 'inline'
+              scriptLocation: 'inlineScript'
               inlineScript: |
                 rgExists=$(az group exists --name hw-rg)
                 echo "Resource Group exists: $rgExists"
@@ -33,7 +33,7 @@ stages:
             inputs:
               azureSubscription: 'azure1-conn'
               scriptType: 'bash'
-              scriptLocation: 'inline'
+              scriptLocation: 'inlineScript'
               inlineScript: |
                 az group create --name hw-rg --location eastus
 
