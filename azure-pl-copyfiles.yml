@@ -1,0 +1,27 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+stages:
+  - stage: Deploy
+    displayName: 'Deploy to Azure'
+    jobs:
+      - job: CopyFiles
+        displayName: 'Copy files to VM'
+        pool:
+          name: Default
+          agent.name: TLV-M-MarkD
+        steps:
+          - task: CopyFilesOverSSH@0
+            inputs:
+              sshEndpoint: 'az2vm'
+              contents: '**'
+              targetFolder: '/home/userazure1/pyblob/'
+              cleanTargetFolder: true
+              cleanHiddenFilesInTarget: true
+              readyTimeout: '20000'
+              failOnEmptySource: true
