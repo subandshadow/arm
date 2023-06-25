@@ -39,20 +39,16 @@
       "metadata": {
         "description": "The prefix for the storage account name"
       }
-    },
-    "storageAccountName": {
-      "type": "string",
-      "defaultValue": "[format([parameters('storageAccountNamePrefix')], uniqueString(resourceGroup().id))]",
-      "metadata": {
-        "description": "The name of the storage account"
-      }
     }
+  },
+  "variables": {
+    "storageAccountName": "[concat(parameters('storageAccountNamePrefix'), uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2022-09-01",
-      "name": "[parameters('storageAccountName')]",
+      "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
       "sku": {
         "name": "[parameters('storageAccountType')]"
