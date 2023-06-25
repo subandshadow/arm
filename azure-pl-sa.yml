@@ -10,15 +10,15 @@ stages:
   - stage: Deploy
     displayName: 'Deploy to Azure'
     jobs:
-      - job: ProvisionVM
-        displayName: 'Provision VM'
+      - job: ProvisionSA
+        displayName: 'Provision Storage Account'
         pool:
           name: Default
           agent.name: TLV-M-MarkD
 
         steps:
           - task: AzureCLI@2
-            displayName: 'Provision VM'
+            displayName: 'Provision Storage Account'
             inputs:
               azureSubscription: 'azure1-conn' # Replace with your Azure service connection name
               scriptType: 'bash'
