@@ -32,8 +32,9 @@ stages:
               sshEndpoint: 'az2vm'
               runOptions: 'inline'
               inline: |
-                python3 -m venv antenv
-                source antenv/bin/activate
-                python3 -m pip3 install --upgrade pip
-                pip3 install setup
-                pip3 install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
+                sudo su
+                cd /home/userazure1/pyblob
+                python3 -m pip install --upgrade pip
+                python3 -m pip install -r requirements.txt
+                export AZURE_STORAGE_CONNECTION_STRING='DefaultEndpointsProtocol=https;AccountName=sa0sw7dlvivze7p4;AccountKey=Gz3ky+TXBOoomZpmATg8VRRKuj3525GLw4jlw6lE8MkrauOOnCu14ZGUmlqeYqttYeeVKEZuX07w+AStWDAGwA==;EndpointSuffix=core.windows.net'
+                python3 blob.py
