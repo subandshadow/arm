@@ -19,7 +19,7 @@ stages:
           - task: CopyFilesOverSSH@0
             inputs:
               sshEndpoint: 'az2vm'
-              sourceFolder: '$(Build.SourcesDirectory)'
+              sourceFolder: '$(Build.SourcesDirectory)/pyblob'
               contents: '**'
               targetFolder: '/home/userazure1/pyblob/'
               cleanTargetFolder: true
