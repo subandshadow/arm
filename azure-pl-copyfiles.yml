@@ -32,9 +32,8 @@ stages:
               sshEndpoint: 'az2vm'
               runOptions: 'inline'
               inline: |
-                sudo apt-get -y update 2>/dev/null
-                sudo apt-get -y install python-pip 2>/dev/null
-                cd /home/userazure1/pyblob
+                python -m venv antenv
+                source antenv/bin/activate
                 python -m pip install --upgrade pip
-                pip install -r requirements.txt
-                
+                pip install setup
+                pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
