@@ -2,9 +2,7 @@ import os, uuid
 import shutil
 from azure.storage.blob import BlobServiceClient
 
-connection_string = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
-
-print(connection_string)
+connection_string = 'DefaultEndpointsProtocol=https;AccountName=sa0sw7dlvivze7p4;AccountKey=Gz3ky+TXBOoomZpmATg8VRRKuj3525GLw4jlw6lE8MkrauOOnCu14ZGUmlqeYqttYeeVKEZuX07w+AStWDAGwA==;EndpointSuffix=core.windows.net'
 
 try:
     # Create the BlobServiceClient object
