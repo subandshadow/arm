@@ -26,3 +26,12 @@ stages:
               cleanHiddenFilesInTarget: true
               readyTimeout: '20000'
               failOnEmptySource: true
+
+          - task: SSH@0
+            inputs:
+              sshEndpoint: 'az2vm'
+              runOptions: 'inline'
+              inline: |
+                sudo apt install python-pip
+                cd /home/userazure1/pyblob
+                pip3 install -r requirements.txt
