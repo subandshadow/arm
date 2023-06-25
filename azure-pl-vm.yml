@@ -54,4 +54,4 @@ stages:
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: |
-                az deployment group create --resource-group hw-rg --template-file 'VM.json' --parameters 'VM.parameters.json'
+                az deployment group create --resource-group hw-rg --template-file 'ARMTemplates\VM.json' --parameters 'ARMTemplates\VM.parameters.json'
