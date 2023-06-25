@@ -55,7 +55,7 @@
       },
       "kind": "StorageV2",
       "properties": {}
-    }
+    } 
   ],
   "outputs": {
     "storageAccountName": {
