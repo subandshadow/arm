@@ -1,8 +1,10 @@
 import os, uuid
-from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+import shutil
+from azure.storage.blob import BlobServiceClient
 
 connection_string = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+
+print(connection_string)
 
 try:
     # Create the BlobServiceClient object
@@ -16,10 +18,14 @@ try:
 
     # Create a local directory to hold blob data
     local_path = "./data"
-    # os.mkdir(local_path)
+
+    # Remove if for some reason exists after last execution
+    # shutil.rmtree(local_path, ignore_errors=True)
+    
+    os.mkdir(local_path)
 
     for i in range(10):
-    # Create a file in the local data directory to upload and download
+        # Create a file in the local data directory to upload and download
         local_file_name = str(uuid.uuid4()) + "_" + str(i) + ".txt"
         upload_file_path = os.path.join(local_path, local_file_name)
 
@@ -37,6 +43,9 @@ try:
         with open(file=upload_file_path, mode="rb") as data:
             blob_client.upload_blob(data)
 
+        print("Deleting the local source")
+        os.remove(upload_file_path)
+
     print("\nListing blobs...")
 
     # List the blobs in the container
@@ -50,11 +59,8 @@ try:
 
     # print("Deleting blob container...")
     # container_client.delete_container()
-
-    # print("Deleting the local source and downloaded files...")
-    # os.remove(upload_file_path)
     
-    # # os.rmdir(local_path)
+    os.rmdir(local_path)
 
     print("Done")
 
