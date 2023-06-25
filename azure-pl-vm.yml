@@ -45,7 +45,7 @@ stages:
           #     scriptLocation: 'inline'
           #     inlineScript: |
           #       az account set --subscription $(azureSubscriptionId)
-          #       az group create --name $(resourceGroupName) --location $(location)
+          #       az group create --name $(resourceGroupName) --location $(location) 
 
           - task: AzureCLI@2
             displayName: 'Provision VM'
