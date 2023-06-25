@@ -18,26 +18,6 @@ stages:
 
         steps:
           - task: AzureCLI@2
-            displayName: 'Check Resource Group Existence'
-            name: CheckResourceGroup
-            inputs:
-              azureSubscription: 'azure1-conn'
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                echo "##vso[task.setvariable variable=rgExists]$(az group exists --name hw-rg)"
-
-          - task: AzureCLI@2
-            displayName: 'Create Resource Group'
-            condition: eq(dependencies.CheckResourceGroup.outputs['CheckResourceGroup.rgExists'], 'false')
-            inputs:
-              azureSubscription: 'azure1-conn'
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                az group create --name hw-rg --location eastus
-
-          - task: AzureCLI@2
             displayName: 'Provision Storage Account'
             inputs:
               azureSubscription: 'azure1-conn'
