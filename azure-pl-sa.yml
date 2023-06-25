@@ -18,9 +18,29 @@ stages:
 
         steps:
           - task: AzureCLI@2
+            displayName: 'Check Resource Group Existence'
+            inputs:
+              azureSubscription: 'azure1-conn'
+              scriptType: 'bash'
+              scriptLocation: 'inline'
+              inlineScript: |
+                rgExists=$(az group exists --name hw-rg)
+                echo "Resource Group exists: $rgExists"
+
+          - task: AzureCLI@2
+            displayName: 'Create Resource Group'
+            condition: eq(variables['rgExists'], 'False')
+            inputs:
+              azureSubscription: 'azure1-conn'
+              scriptType: 'bash'
+              scriptLocation: 'inline'
+              inlineScript: |
+                az group create --name hw-rg --location eastus
+
+          - task: AzureCLI@2
             displayName: 'Provision Storage Account'
             inputs:
-              azureSubscription: 'azure1-conn' # Replace with your Azure service connection name
+              azureSubscription: 'azure1-conn'
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: |
