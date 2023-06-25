@@ -35,7 +35,6 @@
     },
     "storageAccountNamePrefix": {
       "type": "string",
-      "defaultValue": "sa",
       "metadata": {
         "description": "The prefix for the storage account name"
       }
