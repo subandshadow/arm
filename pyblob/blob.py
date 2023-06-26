@@ -44,7 +44,7 @@ try:
         print("Deleting the local source")
         os.remove(upload_file_path)
 
-    print("\nListing blobs...")
+    print("\nListing blobs in container %s..." % container_name)
 
     # List the blobs in the container
     blob_list = container_client.list_blobs()
