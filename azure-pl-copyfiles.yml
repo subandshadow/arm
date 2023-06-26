@@ -31,7 +31,7 @@ stages:
             inputs:
               sshEndpoint: 'az2vm'
               failOnStdErr: false
-              runOptions: 'inline'
-              inline: |
+              runOptions: 'commands'
+              commands: |
                 sudo su
                 cd /home/userazure1/pyblob
