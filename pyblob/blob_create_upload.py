@@ -1,6 +1,6 @@
 import os, uuid
 import shutil
-from azure.storage.blob import BlobServiceClient
+from azure.storage.blob import BlobServiceClient,PublicAccess
 
 connection_string = 'DefaultEndpointsProtocol=https;AccountName=sa0sw7dlvivze7p4;AccountKey=Gz3ky+TXBOoomZpmATg8VRRKuj3525GLw4jlw6lE8MkrauOOnCu14ZGUmlqeYqttYeeVKEZuX07w+AStWDAGwA==;EndpointSuffix=core.windows.net'
 
@@ -10,9 +10,15 @@ try:
 
     # Create a unique name for the container
     container_name = str(uuid.uuid4())
-
+    container_name = container_name.replace('-', '')
+    file = open(file='container_name', mode='w')
+    file.write(container_name)
+    file.close()
+    
+    
     # Create the container
     container_client = blob_service_client.create_container(container_name)
+    container_client.set_container_access_policy({}, public_access=PublicAccess.Container)
 
     # Create a local directory to hold blob data
     local_path = "./data"
@@ -24,7 +30,8 @@ try:
 
     for i in range(10):
         # Create a file in the local data directory to upload and download
-        local_file_name = str(uuid.uuid4()) + "_" + str(i) + ".txt"
+        local_file_name = str(uuid.uuid4()) + ".txt"
+        local_file_name = local_file_name.replace('-', '')
         upload_file_path = os.path.join(local_path, local_file_name)
 
         # Create a blob client using the local file name as the name for the blob
