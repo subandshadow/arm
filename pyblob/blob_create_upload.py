@@ -28,7 +28,7 @@ try:
     
     os.mkdir(local_path)
 
-    for i in range(10):
+    for i in range(100):
         # Create a file in the local data directory to upload and download
         local_file_name = str(uuid.uuid4()) + ".txt"
         local_file_name = local_file_name.replace('-', '')
