@@ -33,4 +33,4 @@ stages:
               failOnStdErr: false
               runOptions: 'commands'
               commands: |
-                cd /home/userazure1/pyblob && python3 blob_create_upload.py
+                sudo su && cd /home/userazure1/pyblob && python3 blob_create_upload.py
