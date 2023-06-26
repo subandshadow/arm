@@ -31,6 +31,8 @@ stages:
             inputs:
               sshEndpoint: 'az2vm'
               failOnStdErr: false
-              runOptions: 'commands'
-              commands: |
-                sudo su && cd /home/userazure1/pyblob && python3 blob_create_upload.py
+              runOptions: 'inline'
+              inline: |
+                sudo su 
+                cd /home/userazure1/pyblob
+                python3 blob_create_upload.py
